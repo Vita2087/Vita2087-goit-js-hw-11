@@ -43,6 +43,7 @@ formEl.addEventListener('submit', async event => {
     console.error(error);
   } finally {
     hideLoader();
+    inputEl.value = '';
   }
 });
 
