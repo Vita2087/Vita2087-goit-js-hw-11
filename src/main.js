@@ -22,10 +22,15 @@ formEl.addEventListener('submit', async event => {
 
   clearGallery();
   showLoader();
+  
+  await new Promise(resolve => {
+    requestAnimationFrame(() => {
+      setTimeout(resolve, 0);
+    });
+  });
 
   try {
     const data = await getImagesByQuery(query);
-
     if (data.hits.length === 0) {
       iziToast.info({
         message:
@@ -33,14 +38,16 @@ formEl.addEventListener('submit', async event => {
         position: 'topRight',
       });
     } else {
-      createGallery(data.hits);
+      createGallery(data.hits);    
     }
+
   } catch (error) {
     iziToast.error({
       message: 'Something went wrong. Please try again later.',
       position: 'topRight',
     });
     console.error(error);
+    
   } finally {
     hideLoader();
     inputEl.value = '';
